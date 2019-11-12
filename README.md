@@ -1,2 +1,2 @@
-# lzw-decoder
-Python module for decoding compressed .Z files 
+# LZW for Python
+Python module for encoding and decoding compressed .Z files 
