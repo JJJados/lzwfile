@@ -7,9 +7,12 @@ Some slight modifications were done for my own use case.
 ```Python
 from lzwfile import decompress
 
-fn = 'compressed_file.Z'
+# File name can be used if located within same directory,
+# if not please use the absolute path.
 
-decompressed_data = decompress(fn)
+file_name = 'compressed_file.Z'
+
+decompressed_data = decompress(file_name)
 ```
 
 ## Notes
