@@ -1,6 +1,6 @@
 # LZWFILE
-Python module for decoding lzw files. This is based directly off Mark Adler's unlzw() C
-implementation with some slight modifications done for my own use case.
+Python module for decoding lzw files. This is based directly off Mark Adler's C library for decoding lzw files.
+Some slight modifications were done for my own use case.
 
 ## Getting Started
 
