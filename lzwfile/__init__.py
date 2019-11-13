@@ -1,4 +1,4 @@
- '''
+'''
 This is merely a Python adaptation of Mark Adler's lzw decompression method
 with some slight modifications regarding the input and output of the overall 
 decompress() method.
@@ -60,7 +60,7 @@ class ByteDecoder:
         buf >>= bits
         left = 16 - bits
         if prev > 255:
-        raise ValueError(self._err_code_4)
+            raise ValueError(self._err_code_4)
 
         table = [final]
 
@@ -68,87 +68,87 @@ class ByteDecoder:
         next_byte = 5
         while next_byte < self._cb_len:
         # If the table will be full after this, increment the code size
-        if (end >= mask) and (bits < self._max):
-            # Flush unused intable bits and bytes to next 8*bits bit boundary
-            rem = (next_byte - mark) % bits
+            if (end >= mask) and (bits < self._max):
+                # Flush unused intable bits and bytes to next 8*bits bit boundary
+                rem = (next_byte - mark) % bits
 
-            if (rem):
-                rem = bits - rem
-                if rem >= self._cb_len - next_byte:
-                    break
-                next_byte += rem
+                if (rem):
+                    rem = bits - rem
+                    if rem >= self._cb_len - next_byte:
+                        break
+                    next_byte += rem
 
-            buf = 0
-            left = 0
-            mark = next_byte
+                buf = 0
+                left = 0
+                mark = next_byte
 
-            # increment the number of bits per symbol
-            bits += 1
-            mask <<= 1
-            mask += 1
+                # increment the number of bits per symbol
+                bits += 1
+                mask <<= 1
+                mask += 1
 
-        # Get a code of bits bits
-        buf += self._compressed_bytes[next_byte] << left
-        next_byte += 1
-        left += 8
-        if left < bits:
-            if next_byte == self._cb_len:
-                raise ValueError(self._err_code_2)
+            # Get a code of bits bits
             buf += self._compressed_bytes[next_byte] << left
             next_byte += 1
             left += 8
-        code = buf & mask
-        buf >>= bits
-        left -= bits
+            if left < bits:
+                if next_byte == self._cb_len:
+                    raise ValueError(self._err_code_2)
+                buf += self._compressed_bytes[next_byte] << left
+                next_byte += 1
+                left += 8
+            code = buf & mask
+            buf >>= bits
+            left -= bits
 
-        # process clear code (256)
-        if code == self._clear_code and self._flags:
-            rem = (next_byte - mark) % bits
-            if rem:
-                rem = bits - rem
-                if rem > self._cb_len - next_byte:
-                    break
-                next_byte += rem
-            buf = 0
-            left = 0
-            mark = next_byte
+            # process clear code (256)
+            if code == self._clear_code and self._flags:
+                rem = (next_byte - mark) % bits
+                if rem:
+                    rem = bits - rem
+                    if rem > self._cb_len - next_byte:
+                        break
+                    next_byte += rem
+                buf = 0
+                left = 0
+                mark = next_byte
 
-            # Go back to nine bits per symbol
-            bits = self._bits
-            mask = self._mask
-            end = 255
-            continue  # get next code
+                # Go back to nine bits per symbol
+                bits = self._bits
+                mask = self._mask
+                end = 255
+                continue  # get next code
 
-        # Process LZW code
-        temp = code
-        stack = []
+            # Process LZW code
+            temp = code
+            stack = []
 
-        # Special code to reuse last match
-        if code > end:
-            if (code != end + 1) or (prev > end):
-                raise ValueError(self._err_code_3)
-            stack.append(final)
-            code = prev
+            # Special code to reuse last match
+            if code > end:
+                if (code != end + 1) or (prev > end):
+                    raise ValueError(self._err_code_3)
+                stack.append(final)
+                code = prev
 
-        # Walk through linked list to generate outtable in reverse order
-        while code >= self._clear_code:
-            stack.append(self._suffix[code])
-            code = self._prefix[code]
+            # Walk through linked list to generate outtable in reverse order
+            while code >= self._clear_code:
+                stack.append(self._suffix[code])
+                code = self._prefix[code]
 
-        stack.append(code)
-        final = code
+            stack.append(code)
+            final = code
 
-        # Link new table entry
-        if end < mask:
-            end += 1
-            self._prefix[end] = prev
-            self._suffix[end] = final
+            # Link new table entry
+            if end < mask:
+                end += 1
+                self._prefix[end] = prev
+                self._suffix[end] = final
 
-        # Set previous code for next iteration
-        prev = temp
+            # Set previous code for next iteration
+            prev = temp
 
-        # Write stack to outtable in forward order
-        table += stack[::-1]
+            # Write stack to outtable in forward order
+            table += stack[::-1]
 
         return bytes(bytearray(table))
 

@@ -1,6 +1,6 @@
 import os
 
-from setuptools import setup, find_packages
+from setuptools import setup, find_packages, extension
 
 # Read file contents
 def read(file_name, encoding='utf-8'):
@@ -13,18 +13,17 @@ def read(file_name, encoding='utf-8'):
 
 setup(
     name='lzwfile',
-    version='0.0.1',
+    version='0.1.3',
     author='Jayden Laturnus',
     author_email='jaydenlaturnus@gmail.com',
     description='Python module for decoding compressed lzw files',
     long_description=read('README.md'),
-    long_description_content_type='test/markdown',
+    long_description_content_type='text/markdown',
     url='https://github.com/JJJados/lzwfile',
     license='MIT',
     keywords='lzw',
     packages=find_packages(),
     classifiers=[
-        'Compression Algorithm :: Lempel–Ziv–Welch :: LZW',
         'Programming Language :: Python :: 3',
         'License :: OSI Approved :: MIT License',
     ],
