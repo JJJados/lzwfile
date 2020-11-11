@@ -13,7 +13,7 @@ def read(file_name, encoding='utf-8'):
 
 setup(
     name='lzwfile',
-    version='0.1.3',
+    version='0.1.4',
     author='Jayden Laturnus',
     author_email='jaydenlaturnus@gmail.com',
     description='Python module for decoding compressed lzw files',
@@ -27,5 +27,5 @@ setup(
         'Programming Language :: Python :: 3',
         'License :: OSI Approved :: MIT License',
     ],
-    python_requires=">=3.7.4",
+    python_requires=">=3.6.0",
 )
