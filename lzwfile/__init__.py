@@ -1,19 +1,4 @@
 '''
-
-'''
-def compress(file_name):
-    try:
-        with open(file_name, 'rb') as fh:
-            uncompressed_bytes = fh.read()
-    except EnvironmentError as err:
-        raise ValueError(err)
-
-    byte_encoder = ByteEncoder(uncompressed_bytes)
-
-    return byte_encoder.encode()
-
-
-'''
 This is merely a Python adaptation of Mark Adler's lzw decompression method
 with some slight modifications regarding the input and output of the overall 
 decompress() method.
@@ -28,25 +13,6 @@ def decompress(file_name):
     byte_decoder = ByteDecoder(compressed_bytes)
 
     return byte_decoder.decode()
-
-class ByteEncoder:
-
-    def __init__(self, uncompressed_bytes):
-
-        
-        self._uncompressed_bytes = uncompressed_bytes
-        self._max = 9
-        self._bits = 9
-        self._mask = 0x1ff
-        self._clear_code = 256
-
-    def encode(self):
-
-
-
-
-
-
 
 class ByteDecoder:
     '''
